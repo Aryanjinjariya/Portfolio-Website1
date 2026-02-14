@@ -1,0 +1,11 @@
+.glass {
+	background: var(--glass);
+	border-radius: var(--radius-lg);
+	backdrop-filter: var(--blur);
+	transition: var(--transition);
+}
+
+.glass:hover {
+	transform: translateY(-6px);
+	box-shadow: 0 20px 40px rgba(0, 0, 0, 0.35);
+}

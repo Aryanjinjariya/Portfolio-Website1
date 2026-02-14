@@ -1,0 +1,9 @@
+{
+
+    "mongoURI":"mongodb+srv://aryan13aj:aryan1234@cluster0.yvgvm1z.mongodb.net/?appName=Cluster0", 
+    "jwtSecret":"your_super_secret_key",
+      "emailUser": "aryan13.aj@gmail.com",
+  "emailPass": "zyyp huuz qoan dqln"
+
+
+}
