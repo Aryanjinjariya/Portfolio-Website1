@@ -20,19 +20,33 @@ const AddProject = () => {
 		e.preventDefault()
 
 		try {
-			const fd = new FormData()
-			Object.entries(data).forEach(([k, v]) => fd.append(k, v))
+			console.log('TOKEN:', token)
 
-			await API.post('/project', fd, {
+			const fd = new FormData()
+
+			fd.append('title', data.title)
+			fd.append('description', data.description)
+			fd.append('techStack', data.techStack)
+			fd.append('githubLink', data.githubLink)
+			fd.append('image', data.image)
+
+			const res = await API.post('/project', fd, {
 				headers: {
 					'x-auth-token': token,
 					'Content-Type': 'multipart/form-data'
 				}
 			})
 
+			console.log('SUCCESS:', res.data)
+
+			alert('Project Added Successfully')
+
 			navigate('/admin-project')
 		} catch (err) {
-			console.log('Add project error:', err)
+			console.log('ERROR:', err.response?.data)
+			console.log('STATUS:', err.response?.status)
+
+			alert(err.response?.data?.msg || 'Project Upload Failed')
 		}
 	}
 
