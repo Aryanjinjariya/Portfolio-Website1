@@ -11,6 +11,7 @@ const AdminViewProject = () => {
 		const fetchProject = async () => {
 			try {
 				const res = await API.get(`/project/view/${id}`)
+				console.log(res.data)
 				setProject(res.data)
 			} catch (err) {
 				console.log(err)
