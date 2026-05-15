@@ -1,5 +1,4 @@
 import { useNavigate } from 'react-router-dom'
-import noImage from '../assets/no-image.png'
 
 const ProjectCard = ({ project }) => {
 	const navigate = useNavigate()
@@ -11,13 +10,7 @@ const ProjectCard = ({ project }) => {
 			className='glass project-card'
 			onClick={() => navigate(`/project/${project._id}`)}
 		>
-			<img
-				src={`${BASE_URL}${project.image}`}
-				alt={project.title}
-				onError={e => {
-					e.target.src = noImage
-				}}
-			/>
+			<img src={`${BASE_URL}${project.image}`} alt={project.title} />
 
 			<h3>{project.title}</h3>
 
