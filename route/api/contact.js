@@ -80,13 +80,13 @@ router.post('/reply/:id', auth, async (req, res) => {
 		const transporter = nodemailer.createTransport({
 			service: 'gmail',
 			auth: {
-				user: Process.env.EMAIL_USER,
-				pass: Process.env.EMAIL_PASS
+				user: process.env.EMAIL_USER,
+				pass: process.env.EMAIL_PASS
 			}
 		})
 
 		const mailOptions = {
-			from: `"Portfolio Admin" <${Process.env.EMAIL_USER}>`,
+			from: `"Portfolio Admin" <${process.env.EMAIL_USER}>`,
 			to: message.email,
 			subject: 'Reply to Your Message',
 			html: `
