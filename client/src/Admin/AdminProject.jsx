@@ -3,14 +3,19 @@ import { FaEdit, FaEye, FaTrash } from 'react-icons/fa'
 import { useNavigate } from 'react-router-dom'
 import API from '../api/axios'
 
-const AdminProjects = () => {
+const AdminProject = () => {
 	const navigate = useNavigate()
+
 	const token = localStorage.getItem('token')
 
 	const [projects, setProjects] = useState([])
+
 	const [searchInput, setSearchInput] = useState('')
+
 	const [search, setSearch] = useState('')
+
 	const [sortType, setSortType] = useState('newest')
+
 	const [loading, setLoading] = useState(true)
 
 	/* ================= FETCH PROJECTS ================= */
@@ -18,7 +23,10 @@ const AdminProjects = () => {
 		const fetchProjects = async () => {
 			try {
 				const res = await API.get('/project')
-				setProjects(res.data.projects || res.data || [])
+
+				console.log('PROJECTS:', res.data)
+
+				setProjects(res.data || [])
 			} catch (err) {
 				console.log(err)
 			} finally {
@@ -38,26 +46,29 @@ const AdminProjects = () => {
 	const filteredProjects = useMemo(() => {
 		let filtered = [...projects]
 
-		// Search
+		// SEARCH
 		if (search.trim()) {
-			filtered = filtered.filter(p =>
-				p.title?.toLowerCase().includes(search.toLowerCase())
+			filtered = filtered.filter(project =>
+				project.title?.toLowerCase().includes(search.toLowerCase())
 			)
 		}
 
-		// Sort
+		// SORT
 		switch (sortType) {
 			case 'atoz':
 				filtered.sort((a, b) => a.title.localeCompare(b.title))
 				break
+
 			case 'ztoa':
 				filtered.sort((a, b) => b.title.localeCompare(a.title))
 				break
+
 			case 'oldest':
 				filtered.sort(
 					(a, b) => new Date(a.createdAt || 0) - new Date(b.createdAt || 0)
 				)
 				break
+
 			default:
 				filtered.sort(
 					(a, b) => new Date(b.createdAt || 0) - new Date(a.createdAt || 0)
@@ -73,16 +84,22 @@ const AdminProjects = () => {
 
 		try {
 			await API.delete(`/project/${id}`, {
-				headers: { 'x-auth-token': token }
+				headers: {
+					'x-auth-token': token
+				}
 			})
 
-			setProjects(prev => prev.filter(p => p._id !== id))
+			setProjects(prev => prev.filter(project => project._id !== id))
+
+			alert('Project Deleted Successfully')
 		} catch (err) {
 			console.log(err)
 		}
 	}
 
-	if (loading) return <div className='admin-loading'>Loading...</div>
+	if (loading) {
+		return <div className='admin-loading'>Loading...</div>
+	}
 
 	return (
 		<div className='admin-container'>
@@ -104,6 +121,7 @@ const AdminProjects = () => {
 						value={searchInput}
 						onChange={e => setSearchInput(e.target.value)}
 					/>
+
 					<button onClick={handleSearch}>Search</button>
 				</div>
 
@@ -117,8 +135,11 @@ const AdminProjects = () => {
 					onChange={e => setSortType(e.target.value)}
 				>
 					<option value='newest'>Newest</option>
+
 					<option value='oldest'>Oldest</option>
+
 					<option value='atoz'>A → Z</option>
+
 					<option value='ztoa'>Z → A</option>
 				</select>
 			</div>
@@ -127,9 +148,13 @@ const AdminProjects = () => {
 			<div className='project-table'>
 				<div className='table-head'>
 					<div>Title</div>
+
 					<div>Tech Stack</div>
+
 					<div>Date</div>
+
 					<div>Time</div>
+
 					<div>Action</div>
 				</div>
 
@@ -143,14 +168,19 @@ const AdminProjects = () => {
 
 						return (
 							<div key={project._id} className='table-row'>
-								<div>{project.title}</div>
+								{/* TITLE */}
+								<div>{project.title || '--'}</div>
 
-								<div>{project.techStack?.join(', ') || '--'}</div>
+								{/* TECH STACK */}
+								<div>{project.techStack || '--'}</div>
 
+								{/* DATE */}
 								<div>{dateObj ? dateObj.toLocaleDateString() : '--'}</div>
 
+								{/* TIME */}
 								<div>{dateObj ? dateObj.toLocaleTimeString() : '--'}</div>
 
+								{/* ACTIONS */}
 								<div className='action-buttons'>
 									<button
 										className='icon-btn view'
@@ -185,4 +215,4 @@ const AdminProjects = () => {
 	)
 }
 
-export default AdminProjects
+export default AdminProject
