@@ -1,4 +1,5 @@
 import { useNavigate } from 'react-router-dom'
+import noImage from '../assets/no-image.png'
 
 const ProjectCard = ({ project }) => {
 	const navigate = useNavigate()
@@ -14,7 +15,7 @@ const ProjectCard = ({ project }) => {
 				src={`${BASE_URL}${project.image}`}
 				alt={project.title}
 				onError={e => {
-					e.target.src = 'https://via.placeholder.com/400x250?text=No+Image'
+					e.target.src = noImage
 				}}
 			/>
 
