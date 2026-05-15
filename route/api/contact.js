@@ -2,7 +2,6 @@ const express = require('express')
 const Contact = require('../../models/Contact')
 const auth = require('../../middleware/auth')
 const nodemailer = require('nodemailer')
-const config = require('config')
 
 const router = express.Router()
 
@@ -81,13 +80,13 @@ router.post('/reply/:id', auth, async (req, res) => {
 		const transporter = nodemailer.createTransport({
 			service: 'gmail',
 			auth: {
-				user: config.get('emailUser'),
-				pass: config.get('emailPass')
+				user: Process.env.EMAIL_USER,
+				pass: Process.env.EMAIL_PASS
 			}
 		})
 
 		const mailOptions = {
-			from: `"Portfolio Admin" <${config.get('emailUser')}>`,
+			from: `"Portfolio Admin" <${Process.env.EMAIL_USER}>`,
 			to: message.email,
 			subject: 'Reply to Your Message',
 			html: `
