@@ -10,6 +10,7 @@ const AddProject = () => {
 		description: '',
 		techStack: '',
 		githubLink: '',
+		liveLink: '',
 		image: null
 	})
 
@@ -28,6 +29,7 @@ const AddProject = () => {
 			fd.append('description', data.description)
 			fd.append('techStack', data.techStack)
 			fd.append('githubLink', data.githubLink)
+			fd.append('liveLink', data.liveLink)
 			fd.append('image', data.image)
 
 			const res = await API.post('/project', fd, {
@@ -101,6 +103,13 @@ const AddProject = () => {
 							onChange={e => setData({ ...data, githubLink: e.target.value })}
 						/>
 						<label>GitHub Link (optional)</label>
+					</div>
+					<div className='input-group'>
+						<input
+							type='text'
+							onChange={e => setData({ ...data, liveLink: e.target.value })}
+						/>
+						<label>Live Demo Link</label>
 					</div>
 					<div className='upload-section'>
 						<label className='upload-label'>Upload Image</label>

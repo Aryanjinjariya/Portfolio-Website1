@@ -18,6 +18,7 @@ import Contact from './pages/Contact'
 import Education from './pages/Education'
 import Home from './pages/Home'
 import Project from './pages/Project'
+import ProjectDetails from './pages/ProjectDetails'
 import Service from './pages/Service'
 import Skills from './pages/Skills'
 const App = () => {
@@ -32,6 +33,7 @@ const App = () => {
 				<Route path='/education' element={<Education />} />
 				<Route path='/service' element={<Service />} />
 				<Route path='/contact' element={<Contact />} />
+				<Route path='/project/:id' element={<ProjectDetails />} />
 
 				{/* 🔐 ADMIN ROUTES */}
 				<Route path='/admin-login' element={<AdminLogin />} />
