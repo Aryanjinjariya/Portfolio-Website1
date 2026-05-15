@@ -12,7 +12,7 @@ connectDB()
 app.use(express.json())
 app.use(
 	cors({
-		origin: 'https://portfolio-website1-zeta-eight.vercel.app/',
+		origin: 'https://portfolio-website1-zeta-eight.vercel.app',
 		credentials: true
 	})
 )
