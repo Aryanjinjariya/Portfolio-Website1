@@ -17,5 +17,5 @@
 
 ## Live Demo
 
-Frontend: https://portfolio-website1-z0w58hwfb-aryan-jinjariya-projects.vercel.app
-Backend: https://your-render-link
+Frontend: https://portfolio-website1-zeta-eight.vercel.app
+Backend: https://portfolio-website1-ejud.onrender.com
