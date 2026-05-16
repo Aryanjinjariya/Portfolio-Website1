@@ -2999,99 +2999,53 @@ body.light .project-card p {
 	.project-card .actions {
 		flex-direction: column;
 	}
-}/* ===============================
-   CATEGORY SELECT FIX
-================================ */
+}
 
+/* GROUP */
 .select-group {
-	position: relative;
+  position: relative;
 }
 
-.select-label {
-	position: absolute;
-	top: -10px;
-	left: 14px;
-	font-size: 12px;
-	color: #6366f1;
-	background: white;
-	padding: 0 6px;
-	z-index: 2;
-	font-weight: 500;
-}
-
-/* SELECT */
+/* SELECT BOX */
 .select-group select {
-	width: 100%;
-	padding: 14px 16px;
-	border-radius: 14px;
-	border: 1px solid #d1d5db;
-	background: white;
-	font-size: 15px;
-	font-weight: 500;
-	color: #111827 !important;   /* IMPORTANT FIX */
-	outline: none;
-	cursor: pointer;
-	transition: all 0.3s ease;
-
-	appearance: none;
-	-webkit-appearance: none;
-	-moz-appearance: none;
-}
-
-/* SHOW SELECTED VALUE */
-.select-group select:valid {
-	color: #111827 !important;
+  width: 100%;
+  padding: 14px 16px;
+  border-radius: 14px;
+  border: 1px solid #d1d5db;
+  background: white;
+  font-size: 15px;
+  font-weight: 500;
+  color: #111827;
+  outline: none;
+  cursor: pointer;
+  appearance: none;
 }
 
 /* FOCUS */
 .select-group select:focus {
-	border-color: #6366f1;
-	box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.15);
+  border-color: #6366f1;
+  box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.15);
+}
+
+/* LABEL */
+.select-label {
+  position: absolute;
+  left: 14px;
+  top: -10px;
+  font-size: 12px;
+  color: #6366f1;
+  background: white;
+  padding: 0 6px;
+  font-weight: 500;
 }
 
 /* CUSTOM ARROW */
 .select-group::after {
-	content: '⌄';
-	position: absolute;
-	right: 18px;
-	top: 50%;
-	transform: translateY(-50%);
-	font-size: 18px;
-	color: #6366f1;
-	pointer-events: none;
-}
-
-/* OPTIONS */
-.select-group select option {
-	color: #111827;
-	background: white;
-}
-
-/* DARK MODE */
-body.dark .select-group select {
-	background: rgba(255,255,255,0.05);
-	color: #ffffff !important;
-	border: 1px solid rgba(255,255,255,0.1);
-}
-
-body.dark .select-group select option {
-	background: #0f172a;
-	color: white;
-}
-
-body.dark .select-label {
-	background: #0f172a;
-	color: #38bdf8;
-}
-
-.input-group label {
+  content: '⌄';
   position: absolute;
-  top: 12px;
-  left: 10px;
-  transition: 0.2s;
-}
-
-.input-group label.active {
-  top: -10px;
-  font-size: 12px;
+  right: 18px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #6366f1;
+  pointer-events: none;
 }

@@ -8,7 +8,7 @@ const AddProject = () => {
 	const [data, setData] = useState({
 		title: '',
 		description: '',
-		category: 'FullStack',
+		category: '',
 		techStack: '',
 		githubLink: '',
 		liveLink: '',
@@ -128,19 +128,31 @@ const AddProject = () => {
 					</div>
 
 					{/* CATEGORY */}
-					<div className='input-group'>
+					<div className='input-group select-group'>
 						<select
+							name='category'
 							value={data.category}
-							onChange={e => setData({ ...data, category: e.target.value })}
+							required
+							onChange={e =>
+								setData({
+									...data,
+									category: e.target.value
+								})
+							}
 						>
+							<option value='' disabled>
+								Select Category
+							</option>
+
 							<option value='Frontend'>Frontend</option>
 							<option value='Backend'>Backend</option>
 							<option value='FullStack'>FullStack</option>
 							<option value='Mobile'>Mobile</option>
 							<option value='UI/UX'>UI/UX</option>
 						</select>
-					</div>
 
+						<label className='select-label'>Category</label>
+					</div>
 					{/* TECH STACK */}
 					<div className='input-group'>
 						<input
