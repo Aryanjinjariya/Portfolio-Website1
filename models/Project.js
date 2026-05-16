@@ -7,7 +7,7 @@ const ProjectSchema = new mongoose.Schema(
 		image: String,
 		category: {
 			type: String,
-			enum: ['Frontend', 'Backend', 'FullStack', 'UI/UX'],
+			enum: ['Frontend', 'Backend', 'FullStack', 'Mobile', 'UI/UX'],
 			default: 'FullStack'
 		},
 		techstack: String,
