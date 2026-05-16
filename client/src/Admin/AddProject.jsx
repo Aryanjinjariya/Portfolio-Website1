@@ -139,8 +139,6 @@ const AddProject = () => {
 							<option value='Mobile'>Mobile</option>
 							<option value='UI/UX'>UI/UX</option>
 						</select>
-
-						<label className={data.category ? 'active' : ''}>Category</label>
 					</div>
 
 					{/* TECH STACK */}
