@@ -8,6 +8,7 @@ const AddProject = () => {
 	const [data, setData] = useState({
 		title: '',
 		description: '',
+		category: 'FullStack',
 		techStack: '',
 		githubLink: '',
 		liveLink: '',
@@ -18,6 +19,7 @@ const AddProject = () => {
 
 	const token = localStorage.getItem('token')
 
+	// ================= SUBMIT =================
 	const submit = async e => {
 		e.preventDefault()
 
@@ -25,6 +27,7 @@ const AddProject = () => {
 			// CHECK TOKEN
 			if (!token) {
 				alert('Please login again')
+
 				return navigate('/admin-login')
 			}
 
@@ -32,12 +35,14 @@ const AddProject = () => {
 
 			fd.append('title', data.title)
 			fd.append('description', data.description)
+			fd.append('category', data.category)
 			fd.append('techStack', data.techStack)
 			fd.append('githubLink', data.githubLink)
 			fd.append('liveLink', data.liveLink)
 			fd.append('image', data.image)
 
 			console.log('FORM DATA:')
+
 			for (let pair of fd.entries()) {
 				console.log(pair[0], pair[1])
 			}
@@ -62,6 +67,7 @@ const AddProject = () => {
 		}
 	}
 
+	// ================= IMAGE =================
 	const handleImage = e => {
 		const file = e.target.files[0]
 
@@ -119,6 +125,29 @@ const AddProject = () => {
 						/>
 
 						<label>Description</label>
+					</div>
+
+					{/* CATEGORY */}
+					<div className='input-group'>
+						<select
+							value={data.category}
+							onChange={e =>
+								setData({
+									...data,
+									category: e.target.value
+								})
+							}
+						>
+							<option value='Frontend'>Frontend</option>
+
+							<option value='Backend'>Backend</option>
+
+							<option value='FullStack'>FullStack</option>
+
+							<option value='Mobile'>Mobile</option>
+
+							<option value='UI/UX'>UI/UX</option>
+						</select>
 					</div>
 
 					{/* TECH STACK */}

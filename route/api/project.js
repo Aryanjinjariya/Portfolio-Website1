@@ -30,7 +30,8 @@ router.post('/', auth, upload.single('image'), async (req, res) => {
 			title: req.body.title,
 			description: req.body.description,
 			image: req.file.filename ? `/upload/${req.file.filename}` : '',
-			techStack: req.body.techStack,
+			category: req.body.category,
+			techstack: req.body.techstack,
 			githublink: req.body.githublink,
 			livelink: req.body.livelink
 		})
@@ -87,9 +88,10 @@ router.put('/edit/:id', auth, async (req, res) => {
 		project.title = title ?? project.title
 		project.description = description ?? project.description
 		project.category = category ?? project.category
+		project.techstack = techstack ?? project.techstack
 		project.image = image ?? project.image
-		project.githublink = githubLink ?? project.githubLink
-		project.livelink = liveLink ?? project.livelink
+		project.githublink = githublink ?? project.githublink
+		project.livelink = livelink ?? project.livelink
 
 		await project.save()
 

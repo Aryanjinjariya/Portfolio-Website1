@@ -5,55 +5,90 @@ import ProjectCard from '../components/ProjectCard'
 const Project = () => {
 	const [projects, setProjects] = useState([])
 	const [loading, setLoading] = useState(true)
-	const [filter, setFilter] = useState('all')
 
+	// CATEGORY FILTER
+	const [filter, setFilter] = useState('All')
+
+	// FETCH PROJECTS
 	useEffect(() => {
-		API.get('/project')
-			.then(res => setProjects(res.data))
-			.catch(err => console.error(err))
-			.finally(() => setLoading(false))
+		const fetchProjects = async () => {
+			try {
+				const res = await API.get('/project')
+
+				console.log('PROJECTS:', res.data)
+
+				setProjects(res.data)
+			} catch (err) {
+				console.log(err)
+			} finally {
+				setLoading(false)
+			}
+		}
+
+		fetchProjects()
 	}, [])
 
+	// FILTER PROJECTS
 	const filteredProjects =
-		filter === 'all' ? projects : projects.filter(p => p.tech?.includes(filter))
+		filter === 'All'
+			? projects
+			: projects.filter(project => project.category === filter)
 
 	return (
 		<>
 			{/* HERO */}
 			<section className='page hero-small'>
 				<h1>Projects</h1>
+
 				<p className='subtitle'>Some things I’ve built</p>
 			</section>
 
-			{/* FILTER */}
+			{/* FILTER BUTTONS */}
 			<section className='page-content project-filters'>
 				<button
-					className={filter === 'all' ? 'active' : ''}
-					onClick={() => setFilter('all')}
+					className={filter === 'All' ? 'active' : ''}
+					onClick={() => setFilter('All')}
 				>
 					All
 				</button>
+
 				<button
-					className={filter === 'React' ? 'active' : ''}
-					onClick={() => setFilter('React')}
+					className={filter === 'Frontend' ? 'active' : ''}
+					onClick={() => setFilter('Frontend')}
 				>
-					React
+					Frontend
 				</button>
+
 				<button
-					className={filter === 'Node' ? 'active' : ''}
-					onClick={() => setFilter('Node')}
+					className={filter === 'Backend' ? 'active' : ''}
+					onClick={() => setFilter('Backend')}
 				>
 					Backend
 				</button>
+
 				<button
-					className={filter === 'Fullstack' ? 'active' : ''}
-					onClick={() => setFilter('Fullstack')}
+					className={filter === 'FullStack' ? 'active' : ''}
+					onClick={() => setFilter('FullStack')}
 				>
-					Full Stack
+					FullStack
+				</button>
+
+				<button
+					className={filter === 'Mobile' ? 'active' : ''}
+					onClick={() => setFilter('Mobile')}
+				>
+					Mobile
+				</button>
+
+				<button
+					className={filter === 'UI/UX' ? 'active' : ''}
+					onClick={() => setFilter('UI/UX')}
+				>
+					UI/UX
 				</button>
 			</section>
 
-			{/* PROJECT GRID */}
+			{/* PROJECTS */}
 			<section className='page-content'>
 				{loading && <p className='center'>Loading projects...</p>}
 

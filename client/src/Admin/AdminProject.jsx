@@ -5,6 +5,7 @@ import API from '../api/axios'
 
 const AdminProject = () => {
 	const navigate = useNavigate()
+
 	const token = localStorage.getItem('token')
 
 	const [projects, setProjects] = useState([])
@@ -13,11 +14,16 @@ const AdminProject = () => {
 	const [sortType, setSortType] = useState('newest')
 	const [loading, setLoading] = useState(true)
 
+	const BASE_URL = 'https://portfolio-website1-ejud.onrender.com'
+
 	/* ================= FETCH PROJECTS ================= */
 	useEffect(() => {
 		const fetchProjects = async () => {
 			try {
 				const res = await API.get('/project')
+
+				console.log('PROJECTS:', res.data)
+
 				setProjects(res.data.projects || res.data || [])
 			} catch (err) {
 				console.log(err)
@@ -38,26 +44,29 @@ const AdminProject = () => {
 	const filteredProjects = useMemo(() => {
 		let filtered = [...projects]
 
-		// Search
+		// SEARCH
 		if (search.trim()) {
-			filtered = filtered.filter(p =>
-				p.title?.toLowerCase().includes(search.toLowerCase())
+			filtered = filtered.filter(project =>
+				project.title?.toLowerCase().includes(search.toLowerCase())
 			)
 		}
 
-		// Sort
+		// SORT
 		switch (sortType) {
 			case 'atoz':
 				filtered.sort((a, b) => a.title.localeCompare(b.title))
 				break
+
 			case 'ztoa':
 				filtered.sort((a, b) => b.title.localeCompare(a.title))
 				break
+
 			case 'oldest':
 				filtered.sort(
 					(a, b) => new Date(a.createdAt || 0) - new Date(b.createdAt || 0)
 				)
 				break
+
 			default:
 				filtered.sort(
 					(a, b) => new Date(b.createdAt || 0) - new Date(a.createdAt || 0)
@@ -73,16 +82,24 @@ const AdminProject = () => {
 
 		try {
 			await API.delete(`/project/${id}`, {
-				headers: { 'x-auth-token': token }
+				headers: {
+					'x-auth-token': token
+				}
 			})
 
-			setProjects(prev => prev.filter(p => p._id !== id))
+			setProjects(prev => prev.filter(project => project._id !== id))
+
+			alert('Project Deleted Successfully')
 		} catch (err) {
 			console.log(err)
+
+			alert('Delete Failed')
 		}
 	}
 
-	if (loading) return <div className='admin-loading'>Loading...</div>
+	if (loading) {
+		return <div className='admin-loading'>Loading...</div>
+	}
 
 	return (
 		<div className='admin-container'>
@@ -95,7 +112,7 @@ const AdminProject = () => {
 				<h2>Project Management</h2>
 			</div>
 
-			{/* SEARCH + SORT */}
+			{/* SEARCH + FILTER */}
 			<div className='filter-section'>
 				<div className='search-box'>
 					<input
@@ -104,6 +121,7 @@ const AdminProject = () => {
 						value={searchInput}
 						onChange={e => setSearchInput(e.target.value)}
 					/>
+
 					<button onClick={handleSearch}>Search</button>
 				</div>
 
@@ -126,10 +144,11 @@ const AdminProject = () => {
 			{/* TABLE */}
 			<div className='project-table'>
 				<div className='table-head'>
+					<div>Image</div>
 					<div>Title</div>
+					<div>Category</div>
 					<div>Tech Stack</div>
 					<div>Date</div>
-					<div>Time</div>
 					<div>Action</div>
 				</div>
 
@@ -143,14 +162,32 @@ const AdminProject = () => {
 
 						return (
 							<div key={project._id} className='table-row'>
+								{/* IMAGE */}
+								<div>
+									<img
+										src={`${BASE_URL}${project.image}`}
+										alt={project.title}
+										className='admin-project-image'
+									/>
+								</div>
+
+								{/* TITLE */}
 								<div>{project.title}</div>
 
-								<div>{project.techStack?.join(', ') || '--'}</div>
+								{/* CATEGORY */}
+								<div>{project.category || '--'}</div>
 
-								<div>{dateObj ? dateObj.toLocaleDateString() : '--'}</div>
+								{/* TECH STACK */}
+								<div>{project.techstack || '--'}</div>
 
-								<div>{dateObj ? dateObj.toLocaleTimeString() : '--'}</div>
+								{/* DATE */}
+								<div>
+									{dateObj
+										? `${dateObj.toLocaleDateString()} ${dateObj.toLocaleTimeString()}`
+										: '--'}
+								</div>
 
+								{/* ACTIONS */}
 								<div className='action-buttons'>
 									<button
 										className='icon-btn view'
