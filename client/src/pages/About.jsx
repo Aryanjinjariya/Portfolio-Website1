@@ -1,111 +1,126 @@
-import { useState } from 'react'
 import Resume from '../assets/Aryan_Jinjariya_Resume.pdf'
 
 const About = () => {
-	const [showResume, setShowResume] = useState(false)
-
 	return (
-		<>
+		<div className='pt-24 px-4'>
 			{/* HERO */}
-			<section className='page hero-small'>
-				<h1>About Me</h1>
-				<p className='subtitle'>Full Stack Developer • MERN Stack</p>
+			<section className='text-center max-w-3xl mx-auto'>
+				<h1 className='text-4xl md:text-5xl font-bold'>About Me</h1>
+				<p className='text-zinc-400 mt-3'>Full Stack Developer • MERN Stack</p>
 			</section>
 
-			{/* INTRO */}
-			<section className='page-content about-page'>
-				<div className='about-main'>
-					<div className='about-text'>
-						<h2>Who I Am</h2>
-						<p>
-							Hi, I’m <strong>Aryan Jinjariya</strong>, a passionate Full Stack
-							Developer who enjoys building scalable, high-performance web
-							applications with clean architecture and modern UI.
-						</p>
-						<p>
-							I love turning ideas into real products, solving complex problems,
-							and continuously improving my skills through real-world projects
-							and freelance work.
-						</p>
+			{/* MAIN SECTION */}
+			<section className='max-w-6xl mx-auto mt-16 grid md:grid-cols-3 gap-8'>
+				{/* LEFT */}
+				<div className='md:col-span-2 space-y-6'>
+					<h2 className='text-2xl font-semibold'>Who I Am</h2>
 
-						<div className='about-highlights'>
-							<div>
-								<h3>20+</h3>
-								<span>Projects</span>
-							</div>
-							<div>
-								<h3>MERN</h3>
-								<span>Stack</span>
-							</div>
-							<div>
-								<h3>100%</h3>
-								<span>Commitment</span>
-							</div>
+					<p className='text-zinc-300 leading-relaxed'>
+						Hi, I’m{' '}
+						<span className='text-indigo-400 font-semibold'>
+							Aryan Jinjariya
+						</span>
+						, a passionate Full Stack Developer who enjoys building scalable,
+						high-performance web applications with clean architecture and modern
+						UI.
+					</p>
+
+					<p className='text-zinc-300 leading-relaxed'>
+						I love turning ideas into real products, solving complex problems,
+						and continuously improving my skills through real-world projects and
+						freelance work.
+					</p>
+
+					{/* STATS */}
+					<div className='grid grid-cols-3 gap-4 mt-6'>
+						<div className='bg-zinc-900 border border-zinc-800 rounded-xl p-4 text-center'>
+							<h3 className='text-2xl font-bold text-indigo-400'>20+</h3>
+							<p className='text-sm text-zinc-400'>Projects</p>
 						</div>
 
-						{/* RESUME BUTTON */}
-						<button
-							className='resume-btn'
-							onClick={() => window.open(Resume, '_blank')}
-						>
-							View Resume
-						</button>
+						<div className='bg-zinc-900 border border-zinc-800 rounded-xl p-4 text-center'>
+							<h3 className='text-2xl font-bold text-indigo-400'>MERN</h3>
+							<p className='text-sm text-zinc-400'>Stack</p>
+						</div>
+
+						<div className='bg-zinc-900 border border-zinc-800 rounded-xl p-4 text-center'>
+							<h3 className='text-2xl font-bold text-indigo-400'>100%</h3>
+							<p className='text-sm text-zinc-400'>Commitment</p>
+						</div>
 					</div>
 
-					<div className='about-card'>
-						<h3>Quick Info</h3>
-						<ul>
-							<li>
-								<strong>Name:</strong> Aryan Jinjariya
-							</li>
-							<li>
-								<strong>Role:</strong> Full Stack Developer
-							</li>
-							<li>
-								<strong>Experience:</strong> Freelance
-							</li>
-							<li>
-								<strong>Stack:</strong> MERN
-							</li>
-							<li>
-								<strong>Location:</strong> Gujarat, India
-							</li>
-						</ul>
+					{/* RESUME BUTTON */}
+					<div className='flex gap-4 mt-6'>
+						<a
+							href={Resume}
+							target='_blank'
+							className='px-5 py-2 bg-indigo-600 rounded-lg hover:bg-indigo-700 transition'
+						>
+							View Resume
+						</a>
+
+						<a
+							href={Resume}
+							download
+							className='px-5 py-2 border border-zinc-700 rounded-lg hover:bg-zinc-800 transition'
+						>
+							Download
+						</a>
 					</div>
 				</div>
 
-				{/* VALUES */}
-				<div className='about-values'>
-					<div className='value-card'>
-						<h4>Clean Code</h4>
-						<p>Readable, maintainable, and scalable code structure.</p>
-					</div>
+				{/* RIGHT CARD */}
+				<div className='bg-zinc-900 border border-zinc-800 rounded-2xl p-6 h-fit'>
+					<h3 className='text-lg font-semibold mb-4'>Quick Info</h3>
 
-					<div className='value-card'>
-						<h4>User Experience</h4>
-						<p>Intuitive UI with smooth interactions and performance.</p>
-					</div>
+					<ul className='space-y-3 text-sm text-zinc-300'>
+						<li>
+							<span className='text-zinc-500'>Name:</span> Aryan Jinjariya
+						</li>
 
-					<div className='value-card'>
-						<h4>Continuous Learning</h4>
-						<p>Always upgrading skills with modern tools & practices.</p>
-					</div>
+						<li>
+							<span className='text-zinc-500'>Role:</span> Full Stack Developer
+						</li>
+
+						<li>
+							<span className='text-zinc-500'>Experience:</span> Freelance
+						</li>
+
+						<li>
+							<span className='text-zinc-500'>Stack:</span> MERN
+						</li>
+
+						<li>
+							<span className='text-zinc-500'>Location:</span> Gujarat, India
+						</li>
+					</ul>
 				</div>
 			</section>
 
-			{/* RESUME MODAL */}
-			{showResume && (
-				<div className='resume-modal'>
-					<div className='resume-box'>
-						<button className='close-btn' onClick={() => setShowResume(false)}>
-							✕
-						</button>
-
-						<iframe src='/resume.pdf' title='Resume' />
-					</div>
+			{/* VALUES */}
+			<section className='max-w-6xl mx-auto mt-20 grid md:grid-cols-3 gap-6'>
+				<div className='p-6 rounded-2xl bg-zinc-900 border border-zinc-800 hover:border-indigo-600 transition'>
+					<h4 className='font-semibold text-lg'>Clean Code</h4>
+					<p className='text-sm text-zinc-400 mt-2'>
+						Readable, maintainable, and scalable architecture.
+					</p>
 				</div>
-			)}
-		</>
+
+				<div className='p-6 rounded-2xl bg-zinc-900 border border-zinc-800 hover:border-indigo-600 transition'>
+					<h4 className='font-semibold text-lg'>User Experience</h4>
+					<p className='text-sm text-zinc-400 mt-2'>
+						Smooth UI with performance-focused design.
+					</p>
+				</div>
+
+				<div className='p-6 rounded-2xl bg-zinc-900 border border-zinc-800 hover:border-indigo-600 transition'>
+					<h4 className='font-semibold text-lg'>Continuous Learning</h4>
+					<p className='text-sm text-zinc-400 mt-2'>
+						Always improving with modern tech stacks.
+					</p>
+				</div>
+			</section>
+		</div>
 	)
 }
 

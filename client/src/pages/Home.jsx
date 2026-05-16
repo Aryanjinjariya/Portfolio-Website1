@@ -1,87 +1,123 @@
 import { motion } from 'framer-motion'
-
 import { Link } from 'react-router-dom'
-import Footer from '../components/Footer'
+
 import About from './About'
 import Contact from './Contact'
 import Education from './Education'
 import Project from './Project'
 import Service from './Service'
 import Skills from './Skills'
-const fadeUp = {
-	hidden: { opacity: 0, y: 50 },
+
+const sectionVariant = {
+	hidden: { opacity: 0, y: 60 },
 	visible: { opacity: 1, y: 0 }
 }
 
 const Home = () => {
 	return (
-		<>
-			{/* 🔥 HERO */}
-			<section className='hero'>
+		<div className='bg-white dark:bg-[#0b0f19] text-gray-900 dark:text-white'>
+			{/* ================= HERO ================= */}
+			<section className='min-h-screen flex items-center justify-center px-6'>
 				<motion.div
-					className='hero-content'
-					initial='hidden'
-					animate='visible'
-					variants={fadeUp}
+					className='max-w-3xl text-center space-y-6'
+					initial={{ opacity: 0, y: 40 }}
+					animate={{ opacity: 1, y: 0 }}
 					transition={{ duration: 0.8 }}
 				>
-					<h1>
-						Hi, I’m <span>Aryan Jinjariya</span>
+					<p className='text-indigo-500 font-medium'>Hello, I'm</p>
+
+					<h1 className='text-4xl md:text-6xl font-bold leading-tight'>
+						Aryan <span className='text-indigo-500'>Jinjariya</span>
 					</h1>
-					<h2> MERN Stack Developer</h2>
-					<p>
-						MERN Stack Developer experienced in building scalable full-stack
-						applications with React, Node.js, Express, and MongoDB. Focused on
-						clean code, secure APIs, and modern responsive UI design.
+
+					<h2 className='text-xl md:text-2xl text-gray-500'>
+						MERN Stack Developer
+					</h2>
+
+					<p className='text-gray-500 max-w-xl mx-auto'>
+						I build scalable full-stack applications using React, Node.js,
+						Express, and MongoDB with focus on performance and clean UI.
 					</p>
 
-					<div className='hero-actions'>
+					<div className='flex gap-4 justify-center pt-4'>
 						<Link to='/projects' className='btn primary'>
-							Projects
+							View Projects
 						</Link>
 						<Link to='/contact' className='btn outline'>
-							Contact
+							Contact Me
 						</Link>
 					</div>
 				</motion.div>
 			</section>
 
-			{/* 🔥 SECTIONS */}
-			<motion.section id='about' {...motionProps}>
+			{/* ================= ABOUT ================= */}
+			<motion.section
+				className='max-w-6xl mx-auto px-6 py-20'
+				variants={sectionVariant}
+				initial='hidden'
+				whileInView='visible'
+				viewport={{ once: true }}
+				transition={{ duration: 0.6 }}
+			>
 				<About />
 			</motion.section>
 
-			<motion.section id='skills' {...motionProps}>
+			{/* ================= SKILLS ================= */}
+			<motion.section
+				className='max-w-6xl mx-auto px-6 py-20'
+				variants={sectionVariant}
+				initial='hidden'
+				whileInView='visible'
+				viewport={{ once: true }}
+			>
 				<Skills />
 			</motion.section>
 
-			<motion.section id='projects' {...motionProps}>
+			{/* ================= PROJECTS ================= */}
+			<motion.section
+				className='max-w-6xl mx-auto px-6 py-20'
+				variants={sectionVariant}
+				initial='hidden'
+				whileInView='visible'
+				viewport={{ once: true }}
+			>
 				<Project />
 			</motion.section>
 
-			<motion.section id='services' {...motionProps}>
+			{/* ================= SERVICES ================= */}
+			<motion.section
+				className='max-w-6xl mx-auto px-6 py-20'
+				variants={sectionVariant}
+				initial='hidden'
+				whileInView='visible'
+				viewport={{ once: true }}
+			>
 				<Service />
 			</motion.section>
 
-			<motion.section id='education' {...motionProps}>
+			{/* ================= EDUCATION ================= */}
+			<motion.section
+				className='max-w-6xl mx-auto px-6 py-20'
+				variants={sectionVariant}
+				initial='hidden'
+				whileInView='visible'
+				viewport={{ once: true }}
+			>
 				<Education />
 			</motion.section>
 
-			<motion.section id='contact' {...motionProps}>
+			{/* ================= CONTACT ================= */}
+			<motion.section
+				className='max-w-6xl mx-auto px-6 py-20'
+				variants={sectionVariant}
+				initial='hidden'
+				whileInView='visible'
+				viewport={{ once: true }}
+			>
 				<Contact />
 			</motion.section>
-			<div style={{ marginTop: '50px' }}>
-				<Footer />
-			</div>
-		</>
+		</div>
 	)
-}
-
-const motionProps = {
-	initial: { opacity: 0, y: 40 },
-	whileInView: { opacity: 1, y: 0 },
-	transition: { duration: 0.6 },
-	viewport: { once: true }
 }
 
 export default Home

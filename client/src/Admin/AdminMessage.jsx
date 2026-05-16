@@ -3,7 +3,7 @@ import { FaEye, FaReply, FaTrash } from 'react-icons/fa'
 import { useNavigate } from 'react-router-dom'
 import API from '../api/axios'
 
-const AdminMessages = () => {
+const AdminMessage = () => {
 	const token = localStorage.getItem('token')
 	const navigate = useNavigate()
 
@@ -13,7 +13,6 @@ const AdminMessages = () => {
 	const [sortType, setSortType] = useState('newest')
 	const [loading, setLoading] = useState(true)
 
-	/* ================= FETCH MESSAGES ================= */
 	useEffect(() => {
 		const fetchMessages = async () => {
 			try {
@@ -22,7 +21,7 @@ const AdminMessages = () => {
 				})
 				setMessages(res.data || [])
 			} catch (err) {
-				console.log(err.response?.data || err.message)
+				console.log(err)
 			} finally {
 				setLoading(false)
 			}
@@ -31,12 +30,8 @@ const AdminMessages = () => {
 		fetchMessages()
 	}, [])
 
-	/* ================= SEARCH ================= */
-	const handleSearch = () => {
-		setSearch(searchInput)
-	}
+	const handleSearch = () => setSearch(searchInput)
 
-	/* ================= FILTER + SORT ================= */
 	const filteredMessages = useMemo(() => {
 		let filtered = [...messages]
 
@@ -54,22 +49,17 @@ const AdminMessages = () => {
 				filtered.sort((a, b) => b.name.localeCompare(a.name))
 				break
 			case 'oldest':
-				filtered.sort(
-					(a, b) => new Date(a.createdAt || 0) - new Date(b.createdAt || 0)
-				)
+				filtered.sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt))
 				break
 			default:
-				filtered.sort(
-					(a, b) => new Date(b.createdAt || 0) - new Date(a.createdAt || 0)
-				)
+				filtered.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
 		}
 
 		return filtered
 	}, [messages, search, sortType])
 
-	/* ================= DELETE ================= */
 	const deleteMessage = async id => {
-		if (!window.confirm('Delete this message?')) return
+		if (!confirm('Delete this message?')) return
 
 		try {
 			await API.delete(`/contact/${id}`, {
@@ -82,34 +72,51 @@ const AdminMessages = () => {
 		}
 	}
 
-	if (loading) return <div className='admin-loading'>Loading...</div>
+	if (loading) {
+		return (
+			<div className='min-h-screen flex items-center justify-center text-white'>
+				Loading...
+			</div>
+		)
+	}
 
 	return (
-		<div className='admin-container'>
-			<button className='back-btn' onClick={() => navigate(-1)}>
-				⬅ Back
-			</button>
+		<div className='min-h-screen bg-zinc-950 text-white p-6'>
+			{/* HEADER */}
+			<div className='flex items-center justify-between mb-6'>
+				<button
+					onClick={() => navigate(-1)}
+					className='text-gray-300 hover:text-white transition'
+				>
+					← Back
+				</button>
 
-			<div className='admin-header'>
-				<h2>Message Management</h2>
+				<h2 className='text-2xl font-bold'>Message Management</h2>
 			</div>
 
-			{/* SEARCH + SORT */}
-			<div className='filter-section'>
-				<div className='search-box'>
+			{/* FILTER BAR */}
+			<div className='flex flex-col md:flex-row gap-3 mb-6'>
+				<div className='flex w-full md:w-1/2'>
 					<input
 						type='text'
-						placeholder='Search by name or email...'
+						placeholder='Search name or email...'
 						value={searchInput}
 						onChange={e => setSearchInput(e.target.value)}
+						className='flex-1 p-3 rounded-l-lg bg-white/5 border border-white/10 outline-none'
 					/>
-					<button onClick={handleSearch}>Search</button>
+
+					<button
+						onClick={handleSearch}
+						className='px-4 bg-blue-600 hover:bg-blue-700 rounded-r-lg'
+					>
+						Search
+					</button>
 				</div>
 
 				<select
-					className='sort-select'
 					value={sortType}
 					onChange={e => setSortType(e.target.value)}
+					className='p-3 bg-white/5 border border-white/10 rounded-lg'
 				>
 					<option value='newest'>Newest</option>
 					<option value='oldest'>Oldest</option>
@@ -119,8 +126,9 @@ const AdminMessages = () => {
 			</div>
 
 			{/* TABLE */}
-			<div className='project-table'>
-				<div className='table-head'>
+			<div className='overflow-x-auto border border-white/10 rounded-xl'>
+				{/* HEADER */}
+				<div className='grid grid-cols-6 bg-white/5 p-3 font-semibold text-gray-300'>
 					<div>Name</div>
 					<div>Email</div>
 					<div>Date</div>
@@ -129,53 +137,53 @@ const AdminMessages = () => {
 					<div>Action</div>
 				</div>
 
+				{/* ROWS */}
 				{filteredMessages.length === 0 ? (
-					<div className='empty-1'>No messages found</div>
+					<div className='p-6 text-center text-gray-400'>No messages found</div>
 				) : (
 					filteredMessages.map(msg => {
-						const dateObj = msg.createdAt ? new Date(msg.createdAt) : null
+						const date = msg.createdAt ? new Date(msg.createdAt) : null
 
 						return (
-							<div key={msg._id} className='table-row'>
+							<div
+								key={msg._id}
+								className='grid grid-cols-6 p-3 border-t border-white/10 hover:bg-white/5 transition'
+							>
 								<div>{msg.name}</div>
-
-								<div>{msg.email}</div>
-
-								<div>{dateObj ? dateObj.toLocaleDateString() : '--'}</div>
-
-								<div>{dateObj ? dateObj.toLocaleTimeString() : '--'}</div>
+								<div className='text-gray-300'>{msg.email}</div>
+								<div>{date ? date.toLocaleDateString() : '--'}</div>
+								<div>{date ? date.toLocaleTimeString() : '--'}</div>
 
 								<div>
 									<span
-										className={
-											msg.replied ? 'status replied' : 'status pending'
-										}
+										className={`px-2 py-1 text-xs rounded ${
+											msg.replied
+												? 'bg-green-500/20 text-green-400'
+												: 'bg-yellow-500/20 text-yellow-400'
+										}`}
 									>
 										{msg.replied ? 'Replied' : 'Pending'}
 									</span>
 								</div>
 
-								<div className='action-buttons'>
+								<div className='flex gap-3 text-lg'>
 									<button
-										className='icon-btn view'
-										title='View'
 										onClick={() => navigate(`/view-message/${msg._id}`)}
+										className='text-blue-400 hover:scale-110 transition'
 									>
 										<FaEye />
 									</button>
 
 									<button
-										className='icon-btn reply'
-										title='Reply'
 										onClick={() => navigate(`/reply-message/${msg._id}`)}
+										className='text-green-400 hover:scale-110 transition'
 									>
 										<FaReply />
 									</button>
 
 									<button
-										className='icon-btn delete'
-										title='Delete'
 										onClick={() => deleteMessage(msg._id)}
+										className='text-red-400 hover:scale-110 transition'
 									>
 										<FaTrash />
 									</button>
@@ -189,4 +197,4 @@ const AdminMessages = () => {
 	)
 }
 
-export default AdminMessages
+export default AdminMessage

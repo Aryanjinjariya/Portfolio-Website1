@@ -52,56 +52,76 @@ const AdminEditProject = () => {
 	}
 
 	return (
-		<div className='admin-edit-wrapper'>
-			<div className='edit-card'>
-				<div className='edit-header'>
-					<button className='back-btn' onClick={() => navigate(-1)}>
+		<div className='min-h-screen flex items-center justify-center bg-zinc-950 px-4'>
+			{/* CARD */}
+			<div className='w-full max-w-2xl bg-white/5 border border-white/10 rounded-2xl shadow-xl p-6'>
+				{/* HEADER */}
+				<div className='flex items-center justify-between mb-6'>
+					<button
+						onClick={() => navigate(-1)}
+						className='text-sm text-gray-300 hover:text-white transition'
+					>
 						← Back
 					</button>
-					<h2>Edit Project</h2>
+
+					<h2 className='text-xl font-bold text-white'>Edit Project</h2>
 				</div>
 
-				<form className='admin-form' onSubmit={handleSubmit}>
-					<div className='form-group'>
-						<label>Project Title</label>
+				{/* FORM */}
+				<form onSubmit={handleSubmit} className='space-y-5'>
+					{/* TITLE */}
+					<div>
+						<label className='text-sm text-gray-300'>Project Title</label>
 						<input
 							name='title'
 							value={form.title}
 							onChange={handleChange}
 							required
+							className='w-full mt-1 p-3 rounded-lg bg-white/5 border border-white/10 text-white outline-none focus:border-blue-500'
 						/>
 					</div>
 
-					<div className='form-group'>
-						<label>Description</label>
+					{/* DESCRIPTION */}
+					<div>
+						<label className='text-sm text-gray-300'>Description</label>
 						<textarea
 							name='description'
 							value={form.description}
 							onChange={handleChange}
 							rows='4'
 							required
+							className='w-full mt-1 p-3 rounded-lg bg-white/5 border border-white/10 text-white outline-none focus:border-blue-500'
 						/>
 					</div>
 
-					<div className='form-group'>
-						<label>Tech Stack</label>
+					{/* TECH STACK */}
+					<div>
+						<label className='text-sm text-gray-300'>Tech Stack</label>
 						<input
 							name='techStack'
 							value={form.techStack}
 							onChange={handleChange}
+							className='w-full mt-1 p-3 rounded-lg bg-white/5 border border-white/10 text-white outline-none focus:border-blue-500'
 						/>
 					</div>
 
-					<div className='form-group'>
-						<label>GitHub Link</label>
+					{/* GITHUB */}
+					<div>
+						<label className='text-sm text-gray-300'>GitHub Link</label>
 						<input
 							name='githubLink'
 							value={form.githubLink}
 							onChange={handleChange}
+							className='w-full mt-1 p-3 rounded-lg bg-white/5 border border-white/10 text-white outline-none focus:border-blue-500'
 						/>
 					</div>
 
-					<button className='update-btn' type='submit'>
+					{/* BUTTON */}
+					<button
+						type='submit'
+						disabled={loading}
+						className='w-full py-3 rounded-lg bg-blue-600 hover:bg-blue-700 transition font-medium text-white'
+					>
 						{loading ? 'Updating...' : 'Update Project'}
 					</button>
 				</form>

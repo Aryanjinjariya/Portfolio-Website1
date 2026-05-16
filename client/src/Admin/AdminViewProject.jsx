@@ -4,7 +4,6 @@ import API from '../api/axios'
 
 const AdminViewProject = () => {
 	const { id } = useParams()
-
 	const navigate = useNavigate()
 
 	const [project, setProject] = useState(null)
@@ -15,9 +14,6 @@ const AdminViewProject = () => {
 		const fetchProject = async () => {
 			try {
 				const res = await API.get(`/project/view/${id}`)
-
-				console.log(res.data)
-
 				setProject(res.data)
 			} catch (err) {
 				console.log(err)
@@ -27,69 +23,96 @@ const AdminViewProject = () => {
 		fetchProject()
 	}, [id])
 
-	if (!project) return <div>Loading...</div>
+	if (!project) {
+		return (
+			<div className='min-h-screen flex items-center justify-center text-gray-400'>
+				Loading...
+			</div>
+		)
+	}
 
 	return (
-		<div className='admin-container'>
-			<button onClick={() => navigate(-1)}>⬅ Back</button>
+		<div className='min-h-screen bg-zinc-950 text-white p-6'>
+			{/* BACK */}
+			<button
+				onClick={() => navigate(-1)}
+				className='mb-6 px-4 py-2 rounded-xl bg-zinc-800 hover:bg-zinc-700 transition'
+			>
+				⬅ Back
+			</button>
 
-			<div className='preview-card'>
+			{/* CARD */}
+			<div className='max-w-4xl mx-auto bg-zinc-900/60 border border-white/10 rounded-2xl shadow-xl overflow-hidden'>
 				{/* IMAGE */}
 				<img
 					src={`${BASE_URL}${project.image}`}
 					alt={project.title}
-					className='preview-image'
+					className='w-full h-72 object-cover'
 				/>
 
-				{/* TITLE */}
-				<h2>{project.title}</h2>
+				<div className='p-6 space-y-5'>
+					{/* TITLE */}
+					<h2 className='text-3xl font-bold'>{project.title}</h2>
 
-				{/* CATEGORY */}
-				<p>
-					<strong>Category:</strong> {project.category || '--'}
-				</p>
+					{/* CATEGORY BADGE */}
+					<span className='inline-block px-3 py-1 text-xs rounded-full bg-blue-600/20 text-blue-400 border border-blue-500/30'>
+						{project.category || 'Project'}
+					</span>
 
-				{/* DESCRIPTION */}
-				<p>
-					<strong>Description:</strong>
-				</p>
+					{/* DESCRIPTION */}
+					<div>
+						<p className='text-gray-400 text-sm mb-2'>Description</p>
+						<p className='leading-relaxed'>{project.description}</p>
+					</div>
 
-				<p>{project.description}</p>
+					{/* TECH STACK */}
+					<div>
+						<p className='text-gray-400 text-sm mb-1'>Tech Stack</p>
+						<p className='text-white font-medium'>
+							{project.techstack || '--'}
+						</p>
+					</div>
 
-				{/* TECH STACK */}
-				<p>
-					<strong>Tech Stack:</strong> {project.techstack || '--'}
-				</p>
+					{/* LINKS GRID */}
+					<div className='grid md:grid-cols-2 gap-4'>
+						<div className='bg-zinc-800/40 p-4 rounded-xl border border-white/10'>
+							<p className='text-gray-400 text-sm'>Live Link</p>
+							{project.livelink ? (
+								<a
+									href={project.livelink}
+									target='_blank'
+									rel='noreferrer'
+									className='text-blue-400 hover:underline break-all'
+								>
+									Visit Project
+								</a>
+							) : (
+								<p>--</p>
+							)}
+						</div>
 
-				{/* LIVE LINK */}
-				<p>
-					<strong>Live Link:</strong>{' '}
-					{project.livelink ? (
-						<a href={project.livelink} target='_blank' rel='noreferrer'>
-							{project.livelink}
-						</a>
-					) : (
-						'--'
-					)}
-				</p>
+						<div className='bg-zinc-800/40 p-4 rounded-xl border border-white/10'>
+							<p className='text-gray-400 text-sm'>GitHub</p>
+							{project.githublink ? (
+								<a
+									href={project.githublink}
+									target='_blank'
+									rel='noreferrer'
+									className='text-blue-400 hover:underline break-all'
+								>
+									View Code
+								</a>
+							) : (
+								<p>--</p>
+							)}
+						</div>
+					</div>
 
-				{/* GITHUB */}
-				<p>
-					<strong>GitHub:</strong>{' '}
-					{project.githublink ? (
-						<a href={project.githublink} target='_blank' rel='noreferrer'>
-							{project.githublink}
-						</a>
-					) : (
-						'--'
-					)}
-				</p>
-
-				{/* CREATED DATE */}
-				<p>
-					<strong>Created At:</strong>{' '}
-					{new Date(project.createdAt).toLocaleString()}
-				</p>
+					{/* DATE */}
+					<div className='text-sm text-gray-500 pt-2 border-t border-white/10'>
+						Created: {new Date(project.createdAt).toLocaleString()}
+					</div>
+				</div>
 			</div>
 		</div>
 	)

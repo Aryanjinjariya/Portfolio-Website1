@@ -29,7 +29,9 @@ const AdminRegister = () => {
 				})
 			}
 
-			login(res.data.token)
+			// ✅ FIXED
+			localStorage.setItem('token', res.data.token)
+
 			navigate('/admin-dashboard')
 		} catch (err) {
 			alert(err.response?.data?.msg || 'Something went wrong')
@@ -37,55 +39,59 @@ const AdminRegister = () => {
 	}
 
 	return (
-		<div className='auth-wrapper'>
-			<form onSubmit={submit} className='auth-card'>
-				<h2>{isRegister ? 'Admin Register' : 'Admin Login'}</h2>
+		<div className='min-h-screen flex items-center justify-center bg-zinc-950 text-white'>
+			<div className='w-full max-w-md bg-zinc-900/60 border border-white/10 rounded-2xl p-6 backdrop-blur-xl shadow-xl'>
+				<h2 className='text-2xl font-bold text-center mb-6'>
+					{isRegister ? 'Admin Register' : 'Admin Login'}
+				</h2>
 
-				{isRegister && (
-					<div className='form-group'>
-						<label>Full Name</label>
+				<form onSubmit={submit} className='space-y-4'>
+					{isRegister && (
 						<input
+							className='w-full bg-zinc-950 border border-white/10 p-3 rounded-xl'
 							type='text'
-							placeholder='Enter full name'
+							placeholder='Full Name'
 							value={fullname}
 							onChange={e => setFullname(e.target.value)}
 							required
 						/>
-					</div>
-				)}
+					)}
 
-				<div className='form-group'>
-					<label>Email</label>
 					<input
+						className='w-full bg-zinc-950 border border-white/10 p-3 rounded-xl'
 						type='email'
-						placeholder='Enter email'
+						placeholder='Email'
 						value={email}
 						onChange={e => setEmail(e.target.value)}
 						required
 					/>
-				</div>
 
-				<div className='form-group'>
-					<label>Password</label>
 					<input
+						className='w-full bg-zinc-950 border border-white/10 p-3 rounded-xl'
 						type='password'
-						placeholder='Enter password'
+						placeholder='Password'
 						value={password}
 						onChange={e => setPassword(e.target.value)}
 						required
 					/>
-				</div>
 
-				<button type='submit' className='btn-auth'>
-					{isRegister ? 'Register' : 'Login'}
-				</button>
+					<button
+						type='submit'
+						className='w-full bg-linear-to-r from-indigo-500 to-purple-600 py-3 rounded-xl font-semibold hover:scale-105 transition'
+					>
+						{isRegister ? 'Register' : 'Login'}
+					</button>
+				</form>
 
-				<p className='auth-toggle' onClick={() => setIsRegister(!isRegister)}>
+				<p
+					onClick={() => setIsRegister(!isRegister)}
+					className='text-center text-sm mt-4 text-gray-400 cursor-pointer hover:text-indigo-400'
+				>
 					{isRegister
 						? 'Already have an account? Login'
 						: 'New admin? Register'}
 				</p>
-			</form>
+			</div>
 		</div>
 	)
 }

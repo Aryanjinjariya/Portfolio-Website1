@@ -7,27 +7,22 @@ const AdminViewMessage = () => {
 	const navigate = useNavigate()
 
 	const [message, setMessage] = useState(null)
-	const [reply, setReply] = useState('')
-	const [sending, setSending] = useState(false)
 	const [loading, setLoading] = useState(true)
 
-	// ================= FETCH MESSAGE =================
 	useEffect(() => {
 		const fetchMessage = async () => {
 			try {
 				const token = localStorage.getItem('token')
 
 				const res = await API.get(`/contact/view/${id}`, {
-					headers: {
-						'x-auth-token': token
-					}
+					headers: { 'x-auth-token': token }
 				})
 
 				setMessage(res.data)
 			} catch (err) {
-				console.log(err.response?.data || err.message)
+				console.log(err?.response?.data || err.message)
 
-				if (err.response?.status === 401) {
+				if (err?.response?.status === 401) {
 					alert('Session expired. Please login again.')
 					navigate('/admin-login')
 				}
@@ -39,38 +34,72 @@ const AdminViewMessage = () => {
 		fetchMessage()
 	}, [id, navigate])
 
-	if (loading) return <div className='admin-loading'>Loading...</div>
+	if (loading) {
+		return (
+			<div className='min-h-screen flex items-center justify-center text-gray-400'>
+				Loading...
+			</div>
+		)
+	}
 
-	if (!message) return <div className='admin-loading'>Message not found</div>
+	if (!message) {
+		return (
+			<div className='min-h-screen flex items-center justify-center text-red-400'>
+				Message not found
+			</div>
+		)
+	}
 
 	return (
-		<div className='admin-container'>
-			<button className='back-btn' onClick={() => navigate(-1)}>
+		<div className='min-h-screen bg-zinc-950 text-white p-6'>
+			{/* BACK BUTTON */}
+			<button
+				onClick={() => navigate(-1)}
+				className='mb-6 px-4 py-2 rounded-xl bg-zinc-800 hover:bg-zinc-700 transition'
+			>
 				⬅ Back
 			</button>
 
-			<div className='preview-card'>
-				<h2>📩 Message Details</h2>
+			{/* CARD */}
+			<div className='max-w-3xl mx-auto bg-zinc-900/60 border border-white/10 rounded-2xl p-6 shadow-xl'>
+				<h2 className='text-2xl font-bold mb-6'>📩 Message Details</h2>
 
-				<p>
-					<strong>Name:</strong> {message.name}
-				</p>
-				<p>
-					<strong>Email:</strong> {message.email}
-				</p>
-				<p>
-					<strong>Subject:</strong> {message.subject || '—'}
-				</p>
-				<p>
-					<strong>Status:</strong> {message.status || '—'}
-				</p>
+				{/* INFO GRID */}
+				<div className='grid md:grid-cols-2 gap-4 mb-6'>
+					<div className='bg-zinc-800/50 p-4 rounded-xl'>
+						<p className='text-gray-400 text-sm'>Name</p>
+						<p className='font-semibold'>{message.name}</p>
+					</div>
 
-				<div style={{ marginTop: '15px' }}>
-					<strong>Message:</strong>
-					<p style={{ marginTop: '5px' }}>{message.message}</p>
+					<div className='bg-zinc-800/50 p-4 rounded-xl'>
+						<p className='text-gray-400 text-sm'>Email</p>
+						<p className='font-semibold'>{message.email}</p>
+					</div>
+
+					<div className='bg-zinc-800/50 p-4 rounded-xl'>
+						<p className='text-gray-400 text-sm'>Subject</p>
+						<p className='font-semibold'>{message.subject || '—'}</p>
+					</div>
+
+					<div className='bg-zinc-800/50 p-4 rounded-xl'>
+						<p className='text-gray-400 text-sm'>Status</p>
+						<p
+							className={`font-semibold ${
+								message.status === 'replied'
+									? 'text-green-400'
+									: 'text-yellow-400'
+							}`}
+						>
+							{message.status || 'pending'}
+						</p>
+					</div>
 				</div>
 
-				<hr style={{ margin: '20px 0' }} />
+				{/* MESSAGE BOX */}
+				<div className='bg-zinc-800/40 p-5 rounded-xl border border-white/10'>
+					<p className='text-gray-400 text-sm mb-2'>Message</p>
+					<p className='leading-relaxed'>{message.message}</p>
+				</div>
 			</div>
 		</div>
 	)

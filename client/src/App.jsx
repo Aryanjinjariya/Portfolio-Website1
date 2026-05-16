@@ -11,6 +11,7 @@ import AdminReplyMessage from './Admin/AdminReplyMessage'
 import AdminViewMessage from './Admin/AdminViewMessage'
 import AdminViewProject from './Admin/AdminViewProject'
 import './App.css'
+import Footer from './components/Footer'
 import Navbar from './components/Navbar'
 import ProtectedRoute from './components/ProtectedRoute'
 import About from './pages/About'
@@ -104,6 +105,7 @@ const App = () => {
 					}
 				/>
 			</Routes>
+			<Footer />
 		</Fragment>
 	)
 }

@@ -5,18 +5,21 @@ import ProjectCard from '../components/ProjectCard'
 const Project = () => {
 	const [projects, setProjects] = useState([])
 	const [loading, setLoading] = useState(true)
-
-	// CATEGORY FILTER
 	const [filter, setFilter] = useState('All')
 
-	// FETCH PROJECTS
+	const categories = [
+		'All',
+		'Frontend',
+		'Backend',
+		'FullStack',
+		'Mobile',
+		'UI/UX'
+	]
+
 	useEffect(() => {
 		const fetchProjects = async () => {
 			try {
 				const res = await API.get('/project')
-
-				console.log('PROJECTS:', res.data)
-
 				setProjects(res.data)
 			} catch (err) {
 				console.log(err)
@@ -28,81 +31,56 @@ const Project = () => {
 		fetchProjects()
 	}, [])
 
-	// FILTER PROJECTS
 	const filteredProjects =
-		filter === 'All'
-			? projects
-			: projects.filter(project => project.category === filter)
+		filter === 'All' ? projects : projects.filter(p => p.category === filter)
 
 	return (
-		<>
+		<div className='bg-white dark:bg-[#0b0f19] text-gray-900 dark:text-white'>
 			{/* HERO */}
-			<section className='page hero-small'>
-				<h1>Projects</h1>
-
-				<p className='subtitle'>Some things I’ve built</p>
+			<section className='text-center py-20 px-6'>
+				<h1 className='text-4xl font-bold'>Projects</h1>
+				<p className='text-gray-500 mt-2'>
+					Some things I’ve built and experimented with
+				</p>
 			</section>
 
-			{/* FILTER BUTTONS */}
-			<section className='page-content project-filters'>
-				<button
-					className={filter === 'All' ? 'active' : ''}
-					onClick={() => setFilter('All')}
-				>
-					All
-				</button>
+			{/* FILTER BAR */}
+			<div className='flex flex-wrap justify-center gap-3 px-6 pb-10'>
+				{categories.map(cat => (
+					<button
+						key={cat}
+						onClick={() => setFilter(cat)}
+						className={`
+              px-4 py-2 rounded-full text-sm transition
+              ${
+								filter === cat
+									? 'bg-indigo-600 text-white shadow'
+									: 'bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700'
+							}
+            `}
+					>
+						{cat}
+					</button>
+				))}
+			</div>
 
-				<button
-					className={filter === 'Frontend' ? 'active' : ''}
-					onClick={() => setFilter('Frontend')}
-				>
-					Frontend
-				</button>
-
-				<button
-					className={filter === 'Backend' ? 'active' : ''}
-					onClick={() => setFilter('Backend')}
-				>
-					Backend
-				</button>
-
-				<button
-					className={filter === 'FullStack' ? 'active' : ''}
-					onClick={() => setFilter('FullStack')}
-				>
-					FullStack
-				</button>
-
-				<button
-					className={filter === 'Mobile' ? 'active' : ''}
-					onClick={() => setFilter('Mobile')}
-				>
-					Mobile
-				</button>
-
-				<button
-					className={filter === 'UI/UX' ? 'active' : ''}
-					onClick={() => setFilter('UI/UX')}
-				>
-					UI/UX
-				</button>
-			</section>
-
-			{/* PROJECTS */}
-			<section className='page-content'>
-				{loading && <p className='center'>Loading projects...</p>}
-
-				{!loading && filteredProjects.length === 0 && (
-					<p className='center'>No projects found.</p>
+			{/* CONTENT */}
+			<section className='max-w-6xl mx-auto px-6 pb-20'>
+				{loading && (
+					<div className='text-center text-gray-500'>Loading projects...</div>
 				)}
 
-				<div className='project-grid'>
+				{!loading && filteredProjects.length === 0 && (
+					<div className='text-center text-gray-500'>No projects found</div>
+				)}
+
+				<div className='grid sm:grid-cols-2 lg:grid-cols-3 gap-6'>
 					{filteredProjects.map(project => (
 						<ProjectCard key={project._id} project={project} />
 					))}
 				</div>
 			</section>
-		</>
+		</div>
 	)
 }
 

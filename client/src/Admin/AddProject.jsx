@@ -16,219 +16,161 @@ const AddProject = () => {
 	})
 
 	const [preview, setPreview] = useState(null)
-
 	const token = localStorage.getItem('token')
 
-	// ================= SUBMIT =================
-	const submit = async e => {
-		e.preventDefault()
-
-		try {
-			// CHECK TOKEN
-			if (!token) {
-				alert('Please login again')
-
-				return navigate('/admin-login')
-			}
-
-			const fd = new FormData()
-
-			fd.append('title', data.title)
-			fd.append('description', data.description)
-			fd.append('category', data.category)
-			fd.append('techStack', data.techStack)
-			fd.append('githubLink', data.githubLink)
-			fd.append('liveLink', data.liveLink)
-			fd.append('image', data.image)
-
-			console.log('FORM DATA:')
-
-			for (let pair of fd.entries()) {
-				console.log(pair[0], pair[1])
-			}
-
-			const res = await API.post('/project', fd, {
-				headers: {
-					'x-auth-token': token
-				}
-			})
-
-			console.log('SUCCESS:', res.data)
-
-			alert('Project Added Successfully')
-
-			navigate('/admin-project')
-		} catch (err) {
-			console.log('FULL ERROR:', err)
-
-			console.log('ERROR DATA:', err.response?.data)
-
-			alert(err.response?.data?.msg || 'Project Upload Failed')
-		}
-	}
-
-	// ================= IMAGE =================
 	const handleImage = e => {
 		const file = e.target.files[0]
-
 		if (!file) return
 
-		setData(prev => ({
-			...prev,
-			image: file
-		}))
-
+		setData({ ...data, image: file })
 		setPreview(URL.createObjectURL(file))
 	}
 
+	const submit = async e => {
+		e.preventDefault()
+
+		if (!token) {
+			alert('Please login again')
+			return navigate('/admin-login')
+		}
+
+		try {
+			const fd = new FormData()
+			Object.keys(data).forEach(key => fd.append(key, data[key]))
+
+			await API.post('/project', fd, {
+				headers: { 'x-auth-token': token }
+			})
+
+			alert('Project Added Successfully 🚀')
+			navigate('/admin-project')
+		} catch (err) {
+			alert(err.response?.data?.msg || 'Upload Failed')
+		}
+	}
+
+	const Input = ({ label, ...props }) => (
+		<div className='relative'>
+			<input
+				{...props}
+				className='w-full bg-gray-900 border border-gray-800 px-4 pt-5 pb-2 rounded-lg text-white focus:border-indigo-500 outline-none'
+			/>
+			<label className='absolute top-1 left-4 text-xs text-gray-400'>
+				{label}
+			</label>
+		</div>
+	)
+
 	return (
-		<div className='add-project-container'>
-			<button onClick={() => navigate(-1)}>⬅ Back</button>
+		<div className='min-h-screen bg-gray-950 text-white flex items-center justify-center p-6'>
+			<div className='w-full max-w-3xl bg-gray-900 border border-gray-800 rounded-2xl p-6 shadow-xl'>
+				{/* HEADER */}
+				<div className='mb-6'>
+					<button
+						onClick={() => navigate(-1)}
+						className='text-gray-400 hover:text-white mb-4'
+					>
+						← Back
+					</button>
 
-			<div className='add-project-card'>
-				<div className='card-header'>
-					<h2>📁 Add New Project</h2>
-
-					<p>Create and upload a new portfolio project</p>
+					<h2 className='text-2xl font-bold'>Add New Project</h2>
+					<p className='text-gray-400 text-sm'>
+						Create and publish your portfolio project
+					</p>
 				</div>
 
-				<form onSubmit={submit} className='add-project-form'>
-					{/* TITLE */}
-					<div className='input-group'>
-						<input
-							type='text'
-							value={data.title}
-							required
-							onChange={e =>
-								setData({
-									...data,
-									title: e.target.value
-								})
-							}
-						/>
+				{/* FORM */}
+				<form onSubmit={submit} className='space-y-4'>
+					<Input
+						label='Project Title'
+						value={data.title}
+						onChange={e => setData({ ...data, title: e.target.value })}
+						required
+					/>
 
-						<label>Project Title</label>
-					</div>
-
-					{/* DESCRIPTION */}
-					<div className='input-group'>
+					<div className='relative'>
 						<textarea
 							rows='4'
 							value={data.description}
-							required
-							onChange={e =>
-								setData({
-									...data,
-									description: e.target.value
-								})
-							}
+							onChange={e => setData({ ...data, description: e.target.value })}
+							className='w-full bg-gray-900 border border-gray-800 px-4 pt-5 pb-2 rounded-lg text-white focus:border-indigo-500 outline-none'
 						/>
-
-						<label>Description</label>
+						<label className='absolute top-1 left-4 text-xs text-gray-400'>
+							Description
+						</label>
 					</div>
 
 					{/* CATEGORY */}
-					<div className='input-group select-group'>
+					<div className='relative'>
 						<select
-							name='category'
 							value={data.category}
-							required
-							onChange={e =>
-								setData({
-									...data,
-									category: e.target.value
-								})
-							}
+							onChange={e => setData({ ...data, category: e.target.value })}
+							className='w-full bg-gray-900 border border-gray-800 px-4 py-3 rounded-lg text-white focus:border-indigo-500 outline-none'
 						>
-							<option value='' disabled>
-								Select Category
-							</option>
-
-							<option value='Frontend'>Frontend</option>
-							<option value='Backend'>Backend</option>
-							<option value='FullStack'>FullStack</option>
-							<option value='Mobile'>Mobile</option>
-							<option value='UI/UX'>UI/UX</option>
+							<option value=''>Select Category</option>
+							<option>Frontend</option>
+							<option>Backend</option>
+							<option>FullStack</option>
+							<option>Mobile</option>
+							<option>UI/UX</option>
 						</select>
-
-						<label className='select-label'>Category</label>
-					</div>
-					{/* TECH STACK */}
-					<div className='input-group'>
-						<input
-							type='text'
-							value={data.techStack}
-							required
-							onChange={e =>
-								setData({
-									...data,
-									techStack: e.target.value
-								})
-							}
-						/>
-
-						<label>Tech Stack</label>
 					</div>
 
-					{/* GITHUB */}
-					<div className='input-group'>
-						<input
-							type='text'
-							value={data.githubLink}
-							onChange={e =>
-								setData({
-									...data,
-									githubLink: e.target.value
-								})
-							}
-						/>
+					<Input
+						label='Tech Stack'
+						value={data.techStack}
+						onChange={e => setData({ ...data, techStack: e.target.value })}
+						required
+					/>
 
-						<label>GitHub Link</label>
-					</div>
+					<Input
+						label='GitHub Link'
+						value={data.githubLink}
+						onChange={e => setData({ ...data, githubLink: e.target.value })}
+					/>
 
-					{/* LIVE LINK */}
-					<div className='input-group'>
-						<input
-							type='text'
-							value={data.liveLink}
-							onChange={e =>
-								setData({
-									...data,
-									liveLink: e.target.value
-								})
-							}
-						/>
+					<Input
+						label='Live Link'
+						value={data.liveLink}
+						onChange={e => setData({ ...data, liveLink: e.target.value })}
+					/>
 
-						<label>Live Demo Link</label>
-					</div>
-
-					{/* IMAGE */}
-					<div className='upload-section'>
-						<label className='upload-label'>Upload Image</label>
+					{/* IMAGE UPLOAD */}
+					<div>
+						<label className='block text-sm text-gray-400 mb-2'>
+							Upload Image
+						</label>
 
 						<input
 							type='file'
 							accept='image/*'
-							required
 							onChange={handleImage}
+							className='w-full text-gray-400'
+							required
 						/>
 
 						{preview && (
-							<img src={preview} alt='Preview' className='image-preview' />
+							<img
+								src={preview}
+								className='mt-4 w-full h-52 object-cover rounded-lg border border-gray-800'
+							/>
 						)}
 					</div>
 
 					{/* BUTTONS */}
-					<div className='button-group'>
+					<div className='flex gap-4 pt-4'>
 						<button
 							type='button'
-							className='btn-secondary'
 							onClick={() => navigate('/admin-project')}
+							className='w-full py-2 border border-gray-700 rounded-lg hover:bg-gray-800'
 						>
 							Cancel
 						</button>
 
-						<button type='submit' className='btn-primary'>
+						<button
+							type='submit'
+							className='w-full py-2 bg-indigo-600 rounded-lg hover:bg-indigo-700'
+						>
 							Submit Project
 						</button>
 					</div>

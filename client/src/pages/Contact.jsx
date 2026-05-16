@@ -20,50 +20,70 @@ const Contact = () => {
 		try {
 			await API.post('/contact', form)
 			setSuccess('Message sent successfully ✅')
-			setForm({ name: '', subject: '', email: '', message: '' })
+
+			setForm({
+				name: '',
+				subject: '',
+				email: '',
+				message: ''
+			})
 		} catch (err) {
-			alert('Failed to send message')
+			setSuccess('Something went wrong ❌')
 		} finally {
 			setLoading(false)
 		}
 	}
 
 	return (
-		<>
-			<section className='page hero-small'>
-				<h1>Contact Me</h1>
-				<p className='subtitle'>Let’s talk about your project or idea</p>
+		<div className='pt-24 px-4'>
+			{/* HERO */}
+			<section className='text-center max-w-3xl mx-auto'>
+				<h1 className='text-4xl md:text-5xl font-bold'>Contact Me</h1>
+				<p className='text-zinc-400 mt-3'>
+					Let’s talk about your project or idea
+				</p>
 			</section>
 
-			<section className='page-content contact-layout'>
+			{/* CONTENT */}
+			<section className='max-w-6xl mx-auto mt-16 grid md:grid-cols-2 gap-10'>
 				{/* LEFT INFO */}
-				<div className='contact-info'>
-					<h2>Get in touch</h2>
-					<p>
+				<div className='space-y-6'>
+					<h2 className='text-2xl font-semibold'>Get in touch</h2>
+
+					<p className='text-zinc-400 leading-relaxed'>
 						I’m always open to discussing new projects, creative ideas or
 						opportunities to be part of your vision.
 					</p>
 
-					<ul>
-						<li>
-							<strong>Email:</strong> aryan13.aj@gmail.com
-						</li>
-						<li>
-							<strong>Location:</strong> Gujarat, India
-						</li>
-						<li>
-							<strong>Availability:</strong> Mon to Sat, 9am - 6pm IST
-						</li>
-					</ul>
+					<div className='bg-zinc-900 border border-zinc-800 rounded-2xl p-6 space-y-4'>
+						<div>
+							<p className='text-sm text-zinc-500'>Email</p>
+							<p className='text-white'>aryan13.aj@gmail.com</p>
+						</div>
+
+						<div>
+							<p className='text-sm text-zinc-500'>Location</p>
+							<p className='text-white'>Gujarat, India</p>
+						</div>
+
+						<div>
+							<p className='text-sm text-zinc-500'>Availability</p>
+							<p className='text-white'>Mon - Sat | 9 AM - 6 PM IST</p>
+						</div>
+					</div>
 				</div>
 
-				{/* RIGHT FORM */}
-				<form onSubmit={submit} className='glass contact-form'>
+				{/* FORM */}
+				<form
+					onSubmit={submit}
+					className='bg-zinc-900 border border-zinc-800 rounded-2xl p-6 space-y-4'
+				>
 					<input
 						type='text'
 						placeholder='Your Name'
 						value={form.name}
 						onChange={e => setForm({ ...form, name: e.target.value })}
+						className='w-full p-3 rounded-lg bg-zinc-950 border border-zinc-800 outline-none focus:border-indigo-600'
 						required
 					/>
 
@@ -72,6 +92,7 @@ const Contact = () => {
 						placeholder='Subject'
 						value={form.subject}
 						onChange={e => setForm({ ...form, subject: e.target.value })}
+						className='w-full p-3 rounded-lg bg-zinc-950 border border-zinc-800 outline-none focus:border-indigo-600'
 						required
 					/>
 
@@ -80,6 +101,7 @@ const Contact = () => {
 						placeholder='Your Email'
 						value={form.email}
 						onChange={e => setForm({ ...form, email: e.target.value })}
+						className='w-full p-3 rounded-lg bg-zinc-950 border border-zinc-800 outline-none focus:border-indigo-600'
 						required
 					/>
 
@@ -88,17 +110,23 @@ const Contact = () => {
 						rows='5'
 						value={form.message}
 						onChange={e => setForm({ ...form, message: e.target.value })}
+						className='w-full p-3 rounded-lg bg-zinc-950 border border-zinc-800 outline-none focus:border-indigo-600'
 						required
 					/>
 
-					<button disabled={loading}>
+					<button
+						disabled={loading}
+						className='w-full py-3 rounded-lg bg-indigo-600 hover:bg-indigo-700 transition font-medium disabled:opacity-50'
+					>
 						{loading ? 'Sending...' : 'Send Message'}
 					</button>
 
-					{success && <p className='success'>{success}</p>}
+					{success && (
+						<p className='text-sm text-center text-green-400'>{success}</p>
+					)}
 				</form>
 			</section>
-		</>
+		</div>
 	)
 }
 
