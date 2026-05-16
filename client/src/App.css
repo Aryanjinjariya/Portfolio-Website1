@@ -3019,7 +3019,7 @@ body.light .project-card p {
 	font-weight: 500;
 }
 
-/* SELECT STYLE */
+/* SELECT */
 .select-group select {
 	width: 100%;
 	padding: 14px 16px;
@@ -3027,14 +3027,20 @@ body.light .project-card p {
 	border: 1px solid #d1d5db;
 	background: white;
 	font-size: 15px;
-	color: #111827;
+	font-weight: 500;
+	color: #111827 !important;   /* IMPORTANT FIX */
 	outline: none;
-	transition: all 0.3s ease;
 	cursor: pointer;
+	transition: all 0.3s ease;
 
 	appearance: none;
 	-webkit-appearance: none;
 	-moz-appearance: none;
+}
+
+/* SHOW SELECTED VALUE */
+.select-group select:valid {
+	color: #111827 !important;
 }
 
 /* FOCUS */
@@ -3049,32 +3055,31 @@ body.light .project-card p {
 	position: absolute;
 	right: 18px;
 	top: 50%;
-	transform: translateY(-40%);
+	transform: translateY(-50%);
 	font-size: 18px;
 	color: #6366f1;
 	pointer-events: none;
 }
 
-/* OPTION */
+/* OPTIONS */
 .select-group select option {
-	background: white;
 	color: #111827;
-	padding: 10px;
+	background: white;
 }
 
 /* DARK MODE */
 body.dark .select-group select {
 	background: rgba(255,255,255,0.05);
-	color: white;
+	color: #ffffff !important;
 	border: 1px solid rgba(255,255,255,0.1);
-}
-
-body.dark .select-label {
-	background: #0f172a;
-	color: #38bdf8;
 }
 
 body.dark .select-group select option {
 	background: #0f172a;
 	color: white;
+}
+
+body.dark .select-label {
+	background: #0f172a;
+	color: #38bdf8;
 }

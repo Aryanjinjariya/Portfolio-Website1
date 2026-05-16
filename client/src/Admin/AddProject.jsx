@@ -132,7 +132,9 @@ const AddProject = () => {
 						<label className='select-label'>Category</label>
 
 						<select
+							name='category'
 							value={data.category}
+							required
 							onChange={e =>
 								setData({
 									...data,
@@ -141,13 +143,9 @@ const AddProject = () => {
 							}
 						>
 							<option value='Frontend'>Frontend</option>
-
 							<option value='Backend'>Backend</option>
-
 							<option value='FullStack'>FullStack</option>
-
 							<option value='Mobile'>Mobile</option>
-
 							<option value='UI/UX'>UI/UX</option>
 						</select>
 					</div>
