@@ -3083,3 +3083,15 @@ body.dark .select-label {
 	background: #0f172a;
 	color: #38bdf8;
 }
+
+.input-group label {
+  position: absolute;
+  top: 12px;
+  left: 10px;
+  transition: 0.2s;
+}
+
+.input-group label.active {
+  top: -10px;
+  font-size: 12px;
+}

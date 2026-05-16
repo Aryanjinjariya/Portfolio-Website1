@@ -128,19 +128,10 @@ const AddProject = () => {
 					</div>
 
 					{/* CATEGORY */}
-					<div className='input-group select-group'>
-						<label className='select-label'>Category</label>
-
+					<div className='input-group'>
 						<select
-							name='category'
 							value={data.category}
-							required
-							onChange={e =>
-								setData({
-									...data,
-									category: e.target.value
-								})
-							}
+							onChange={e => setData({ ...data, category: e.target.value })}
 						>
 							<option value='Frontend'>Frontend</option>
 							<option value='Backend'>Backend</option>
@@ -148,6 +139,8 @@ const AddProject = () => {
 							<option value='Mobile'>Mobile</option>
 							<option value='UI/UX'>UI/UX</option>
 						</select>
+
+						<label className={data.category ? 'active' : ''}>Category</label>
 					</div>
 
 					{/* TECH STACK */}
