@@ -2,34 +2,12 @@ const mongoose = require('mongoose')
 
 const ProjectSchema = new mongoose.Schema(
 	{
-		title: {
-			type: String,
-			required: true
-		},
-
-		description: {
-			type: String,
-			required: true
-		},
-
-		image: {
-			type: String
-		},
-
-		techStack: {
-			type: String,
-			default: ''
-		},
-
-		githubLink: {
-			type: String,
-			default: ''
-		},
-
-		liveLink: {
-			type: String,
-			default: ''
-		}
+		title: String,
+		description: String,
+		image: String,
+		techstack: String,
+		githublink: String,
+		livelink: String
 	},
 	{
 		timestamps: true

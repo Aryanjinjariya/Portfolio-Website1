@@ -5,9 +5,7 @@ const auth = require('../../middleware/auth')
 
 const router = express.Router()
 
-// ===========================
-// MULTER CONFIG
-// ===========================
+// Image Upload Config
 const storage = multer.diskStorage({
 	destination: (req, file, cb) => {
 		cb(null, 'upload/')
@@ -20,117 +18,97 @@ const storage = multer.diskStorage({
 const upload = multer({ storage })
 
 // ===========================
-// ADD PROJECT
+// ADD PROJECT (ADMIN)
 // ===========================
 router.post('/', auth, upload.single('image'), async (req, res) => {
 	try {
 		if (!req.file) {
-			return res.status(400).json({
-				msg: 'Image is required'
-			})
+			return res.status(400).json({ msg: 'Image is required' })
 		}
 
 		const project = new Project({
 			title: req.body.title,
 			description: req.body.description,
+			image: req.file.filename ? `/upload/${req.file.filename}` : '',
 			techStack: req.body.techStack,
-			githubLink: req.body.githubLink,
-			liveLink: req.body.liveLink,
-			image: `/upload/${req.file.filename}`
+			githublink: req.body.githublink,
+			livelink: req.body.livelink
 		})
 
 		await project.save()
-
 		res.json(project)
 	} catch (err) {
-		console.log(err)
+		console.error(err)
 		res.status(500).send('Server Error')
 	}
 })
 
-// ===========================
-// GET ALL PROJECTS
-// ===========================
-router.get('/', async (req, res) => {
-	try {
-		const projects = await Project.find().sort({
-			createdAt: -1
-		})
-
-		res.json(projects)
-	} catch (err) {
-		console.log(err)
-		res.status(500).send('Server Error')
-	}
-})
-
-// ===========================
-// VIEW PROJECT
-// ===========================
+/* ==============================
+   VIEW PROJECT (SEPARATE ROUTE)
+============================== */
 router.get('/view/:id', async (req, res) => {
 	try {
 		const project = await Project.findById(req.params.id)
 
 		if (!project) {
-			return res.status(404).json({
-				msg: 'Project not found'
-			})
+			return res.status(404).json({ msg: 'Project not found' })
 		}
 
 		res.json(project)
 	} catch (err) {
-		console.log(err)
-		res.status(500).send('Server Error')
+		console.error(err)
+		res.status(500).json({ msg: 'Server error' })
 	}
 })
 
 // ===========================
-// EDIT PROJECT
+// GET ALL PROJECTS (PUBLIC)
 // ===========================
+router.get('/', async (req, res) => {
+	try {
+		const projects = await Project.find()
+		res.json(projects)
+	} catch (err) {
+		res.status(500).send('Server Error')
+	}
+})
 router.put('/edit/:id', auth, async (req, res) => {
 	try {
+		const { title, description, category, image, githublink, livelink } =
+			req.body
+
 		const project = await Project.findById(req.params.id)
 
 		if (!project) {
-			return res.status(404).json({
-				msg: 'Project not found'
-			})
+			return res.status(404).json({ msg: 'Project not found' })
 		}
 
-		project.title = req.body.title || project.title
-
-		project.description = req.body.description || project.description
-
-		project.techStack = req.body.techStack || project.techStack
-
-		project.githubLink = req.body.githubLink || project.githubLink
-
-		project.liveLink = req.body.liveLink || project.liveLink
+		// Update fields only if provided
+		project.title = title ?? project.title
+		project.description = description ?? project.description
+		project.category = category ?? project.category
+		project.image = image ?? project.image
+		project.githublink = githubLink ?? project.githubLink
+		project.livelink = liveLink ?? project.livelink
 
 		await project.save()
 
-		res.json(project)
+		res.json({ msg: 'Project updated successfully', project })
 	} catch (err) {
 		console.log(err)
 		res.status(500).send('Server Error')
 	}
 })
-
 // ===========================
-// DELETE PROJECT
+// DELETE PROJECT (ADMIN)
 // ===========================
 router.delete('/:id', auth, async (req, res) => {
 	try {
 		await Project.findByIdAndDelete(req.params.id)
-
-		res.json({
-			msg: 'Project deleted'
-		})
+		res.json('Project Deleted')
 	} catch (err) {
-		console.log(err)
 		res.status(500).send('Server Error')
 	}
 })
 
 module.exports = router
-s
