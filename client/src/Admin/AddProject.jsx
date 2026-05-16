@@ -128,7 +128,9 @@ const AddProject = () => {
 					</div>
 
 					{/* CATEGORY */}
-					<div className='input-group'>
+					<div className='input-group select-group'>
+						<label className='select-label'>Category</label>
+
 						<select
 							value={data.category}
 							onChange={e =>
