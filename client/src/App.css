@@ -1,6 +1,6 @@
-/* =========================
-   GLOBAL RESET
-========================= */
+/* ==============================
+   GLOBAL RESET + BASE
+============================== */
 * {
 	margin: 0;
 	padding: 0;
@@ -25,9 +25,9 @@ body.light {
 	color: #020617;
 }
 
-/* =========================
+/* ==============================
    THEME TOGGLE
-========================= */
+============================== */
 .theme-toggle {
 	background: rgba(255,255,255,0.1);
 	border: 1px solid rgba(255,255,255,0.2);
@@ -52,9 +52,9 @@ body.light .theme-toggle {
 	border-color: rgba(0,0,0,0.15);
 }
 
-/* =========================
-   NAVBAR (KEEP ORIGINAL)
-========================= */
+/* ==============================
+   NAVBAR (CLEANED - SAME UI)
+============================== */
 .navbar {
 	position: sticky;
 	top: 0;
@@ -100,16 +100,9 @@ body.light .theme-toggle {
 	color: #fff;
 }
 
-/* =========================
-   SECTION BASE
-========================= */
-section {
-	padding: 100px 8%;
-}
-
-/* =========================
-   HERO
-========================= */
+/* ==============================
+   HERO SECTION (MAIN)
+============================== */
 .hero {
 	min-height: 100vh;
 	display: flex;
@@ -133,9 +126,9 @@ section {
 	color: #cbd5e1;
 }
 
-/* =========================
-   HERO SMALL (FIXED ONCE ONLY)
-========================= */
+/* ==============================
+   HERO SMALL (ALL PAGES FIXED)
+============================== */
 .hero-small {
 	padding: 90px 8% 60px;
 	background: linear-gradient(135deg, #020617, #0f172a);
@@ -153,24 +146,24 @@ section {
 	font-size: 1.1rem;
 }
 
-/* =========================
-   PAGE CONTENT
-========================= */
+/* ==============================
+   PAGE LAYOUT
+============================== */
 .page-content {
 	padding: 80px 8%;
 	max-width: 1300px;
 	margin: auto;
 }
 
-/* =========================
+/* ==============================
    BUTTONS
-========================= */
+============================== */
 .btn {
 	padding: 12px 28px;
 	border-radius: 999px;
 	cursor: pointer;
 	font-weight: 600;
-	transition: 0.3s;
+	transition: 0.3s ease;
 }
 
 .btn.primary {
@@ -184,9 +177,9 @@ section {
 	background: transparent;
 }
 
-/* =========================
-   SKILLS
-========================= */
+/* ==============================
+   SKILLS SECTION
+============================== */
 .skill-grid {
 	display: grid;
 	grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
@@ -207,9 +200,15 @@ section {
 	color: #38bdf8;
 }
 
-/* =========================
-   PROJECT CARD (FIXED SINGLE VERSION)
-========================= */
+/* ==============================
+   PROJECTS SECTION (FULL FIXED)
+============================== */
+.project-grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+	gap: 30px;
+}
+
 .project-card {
 	background: rgba(255,255,255,0.05);
 	border-radius: 20px;
@@ -217,14 +216,16 @@ section {
 	border: 1px solid rgba(255,255,255,0.08);
 	display: flex;
 	flex-direction: column;
-	transition: 0.3s;
+	transition: 0.3s ease;
 	padding: 20px;
 }
 
 .project-card:hover {
 	transform: translateY(-8px);
+	box-shadow: 0 40px 80px rgba(56,189,248,0.25);
 }
 
+/* IMAGE WRAPPER */
 .project-img-wrapper {
 	width: 100%;
 	height: 220px;
@@ -237,18 +238,14 @@ section {
 	width: 100%;
 	height: 100%;
 	object-fit: cover;
-	transition: 0.4s ease;
+	transition: 0.45s ease;
 }
 
 .project-card:hover .project-img-wrapper img {
 	transform: scale(1.08);
 }
 
-/* content */
-.project-card .content {
-	padding: 0;
-}
-
+/* CONTENT */
 .project-card h3 {
 	font-size: 1.3rem;
 	margin-bottom: 10px;
@@ -256,9 +253,10 @@ section {
 
 .project-card p {
 	color: #cbd5e1;
+	line-height: 1.6;
 }
 
-/* tags */
+/* TAGS */
 .tags {
 	display: flex;
 	flex-wrap: wrap;
@@ -274,9 +272,9 @@ section {
 	color: #38bdf8;
 }
 
-/* =========================
-   FORMS (SAFE MERGE)
-========================= */
+/* ==============================
+   FORMS (UNIFIED FIX)
+============================== */
 .form-group {
 	display: flex;
 	flex-direction: column;
@@ -293,9 +291,9 @@ section {
 	color: inherit;
 }
 
-/* =========================
-   SELECT FIX (UNCHANGED)
-========================= */
+/* ==============================
+   SELECT DROPDOWN FIX
+============================== */
 .select-group {
 	position: relative;
 }
@@ -319,18 +317,18 @@ section {
 	color: #6366f1;
 }
 
-/* =========================
+/* ==============================
    CONTACT LAYOUT
-========================= */
+============================== */
 .contact-layout {
 	display: grid;
 	grid-template-columns: 1fr 1fr;
 	gap: 40px;
 }
 
-/* =========================
-   ADMIN / AUTH BOXES
-========================= */
+/* ==============================
+   ADMIN / AUTH CARDS
+============================== */
 .auth-card,
 .add-project-card {
 	background: rgba(255,255,255,0.05);
@@ -339,9 +337,9 @@ section {
 	border: 1px solid rgba(255,255,255,0.08);
 }
 
-/* =========================
-   REPLY PAGE (FIXED ONLY ONCE)
-========================= */
+/* ==============================
+   REPLY PAGE (FIXED ONCE)
+============================== */
 .reply-container {
 	display: flex;
 	justify-content: center;
@@ -358,9 +356,9 @@ section {
 	border-radius: 16px;
 }
 
-/* =========================
+/* ==============================
    RESPONSIVE
-========================= */
+============================== */
 @media (max-width: 768px) {
 	.hero h1 {
 		font-size: 2.5rem;
