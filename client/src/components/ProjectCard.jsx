@@ -14,6 +14,7 @@ const ProjectCard = ({ project }) => {
 			<img
 				src={`${BASE_URL}${project.image}`}
 				alt={project.title}
+				className='project-image'
 				onError={e => {
 					e.target.src =
 						'https://dummyimage.com/600x400/cccccc/000000&text=No+Image'
